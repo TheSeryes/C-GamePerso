@@ -1,0 +1,5 @@
+﻿  Player.cpp
+c:\users\1430076\desktop\climberpuzzle\game\sources\player.cpp(58): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\1430076\desktop\climberpuzzle\game\sources\player.cpp(66): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\1430076\desktop\climberpuzzle\game\sources\player.cpp(119): warning C4244: 'argument': conversion from 'const int' to 'float', possible loss of data
+  game.vcxproj -> C:\Users\1430076\Desktop\ClimberPuzzle\Debug\game.exe
