@@ -21,6 +21,11 @@ public:
     void Draw() override;
     void Update(float aDeltaTime) override;
 
+
+	void Gravity();
+	
+
+
     void SetPosition(int aX, int aY);
     void SetSize(int aW, int aH) const;
 
@@ -30,10 +35,12 @@ private:
     bart::Animation* m_Animation{nullptr};
 
     bart::TileLayer* m_CollisionLayerPtr{nullptr};
-    //bart::TileLayer* m_CollectableLayerPtr{nullptr};
+    bart::TileLayer* m_Interactable{nullptr};
 
     bool m_LeftDown{false};
     bool m_RightDown{false};
+
+	bool m_CanClimb{ false };
 };
 
 // Factory to enable the map to create this entity by itself:

@@ -32,6 +32,12 @@
     <ClCompile Include="includes\SceneGame.cpp">
       <Filter>Source Files\Demo</Filter>
     </ClCompile>
+    <ClCompile Include="sources\GameManager.cpp">
+      <Filter>Source Files\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\ObjectInteractif.cpp">
+      <Filter>Source Files\Demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\MapEntity.h">
@@ -44,6 +50,12 @@
       <Filter>Header Files\Demo</Filter>
     </ClInclude>
     <ClInclude Include="includes\SceneGame.h">
+      <Filter>Header Files\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\GameManager.h">
+      <Filter>Header Files\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ObjectInteractif.h">
       <Filter>Header Files\Demo</Filter>
     </ClInclude>
   </ItemGroup>

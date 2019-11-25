@@ -1,9 +1,14 @@
 #include <PlayerEntity.h>
 #include <TileMap.h>
 #include <MapEntity.h>
+#include <GameManager.h>
 
 PlayerEntity::PlayerEntity()
 {
+	GameManager::Instance().SetPlayer(this);
+
+	GameManager::Instance().Check();
+
     m_Transform = new bart::Transform();
     m_Animation = new bart::Animation();
 }
@@ -18,7 +23,8 @@ void PlayerEntity::Start()
     MapEntity* tMapEntityPtr = static_cast<MapEntity*>(tScene.FindEntity("GameMap"));
     bart::TileMap* tMap = tMapEntityPtr->GetMapPtr();
     m_CollisionLayerPtr = tMap->GetLayer<bart::TileLayer>("Collision");
-   // m_CollectableLayerPtr = tMap->GetLayer<bart::TileLayer>("Collectables");
+
+	m_Interactable = tMap->GetLayer<bart::TileLayer>("Lianne");
 
     m_Collider.Set(m_Transform->X, m_Transform->Y, m_Transform->Width, m_Transform->Height);
 }
@@ -88,19 +94,24 @@ void PlayerEntity::Update(float aDeltaTime)
         m_RightDown = false;
     }
 
-    if (tInput.IsKeyDown(bart::EKeys::KEY_UP))
-    {
-        // Not a real jump... just debugging:
-        m_Transform->Translate(0.0f, -8.0f);
-    }
-	else if (tInput.IsKeyDown(bart::EKeys::KEY_DOWN))
+    
+	if (!m_CanClimb)
 	{
-		m_Transform->Translate(0.0f, -8.0f);
+		Gravity();
+	}
+	else
+	{
+		if (tInput.IsKeyDown(bart::EKeys::KEY_UP))
+		{
+			// Not a real jump... just debugging:
+			m_Transform->Translate(0.0f, -8.0f);
+		}
+		else if (tInput.IsKeyDown(bart::EKeys::KEY_DOWN))
+		{
+			m_Transform->Translate(0.0f, 8.0f);
+		}
 	}
 
-    // Apply gravity:
-    const float tGravity = 0.0f;
-    m_Transform->Translate(0.0f, tGravity);
 
     m_Collider.X = static_cast<int>(m_Transform->X);
     if (m_CollisionLayerPtr->IsColliding(m_Collider))
@@ -116,14 +127,29 @@ void PlayerEntity::Update(float aDeltaTime)
         m_Collider.Y = static_cast<int>(tOldY);
     }
 
-    /*int tX, tY;
-    const int tTile = m_CollectableLayerPtr->IsColliding(m_Collider, &tX, &tY);
+
+	
+
+    int tX, tY;
+    const int tTile = m_Interactable->IsColliding(m_Collider, &tX, &tY);
     if (tTile != 0)
     {
-        m_CollectableLayerPtr->SetValueAt(tX, tY, 0);
-    }*/
+		m_Interactable->SetValueAt(tX, tY,8);
+		m_CanClimb = true;
+    }
+	else
+	{
+		m_CanClimb = false;
+	}
 
     m_Animation->Update(m_Transform, aDeltaTime);
+}
+
+void PlayerEntity::Gravity()
+{
+	// Apply gravity:
+	const float tGravity = 9.8f;
+	m_Transform->Translate(0.0f, tGravity);
 }
 
 void PlayerEntity::SetPosition(const int aX, const int aY)
