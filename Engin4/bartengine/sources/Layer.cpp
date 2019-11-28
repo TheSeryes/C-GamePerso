@@ -1,6 +1,5 @@
 #include <Layer.h>
 #include <tinyxml2.h>
-#include <Engine.h>
 
 void bart::Layer::ClearProperties()
 {

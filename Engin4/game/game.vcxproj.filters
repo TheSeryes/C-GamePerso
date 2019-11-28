@@ -35,7 +35,10 @@
     <ClCompile Include="sources\GameManager.cpp">
       <Filter>Source Files\Demo</Filter>
     </ClCompile>
-    <ClCompile Include="sources\ObjectInteractif.cpp">
+    <ClCompile Include="sources\GroundEntities.cpp">
+      <Filter>Source Files\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\PushObjects.cpp">
       <Filter>Source Files\Demo</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,7 +58,10 @@
     <ClInclude Include="includes\GameManager.h">
       <Filter>Header Files\Demo</Filter>
     </ClInclude>
-    <ClInclude Include="includes\ObjectInteractif.h">
+    <ClInclude Include="includes\GroundEntities.h">
+      <Filter>Header Files\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PushObjects.h">
       <Filter>Header Files\Demo</Filter>
     </ClInclude>
   </ItemGroup>

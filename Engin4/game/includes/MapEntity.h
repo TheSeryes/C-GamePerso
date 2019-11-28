@@ -27,6 +27,9 @@ public:
     TileMap* GetMapPtr() { return &m_Map; }
 
 private:
+	void ScroolUp();
+	void ScroolDown();
+
     TileMap m_Map;
     Camera m_Camera;
 

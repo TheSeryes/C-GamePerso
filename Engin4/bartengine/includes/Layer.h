@@ -11,17 +11,16 @@ namespace tinyxml2
 
 using namespace tinyxml2;
 
+enum ELayerOrientation { ORTHOGONAL, ISOMETRIC, ISOMETRIC_STAGGERED, HEXAGONAL_STAGGERED };
+
 namespace bart
 {
     class Layer
     {
     public:
         virtual ~Layer() = default;
-
         virtual void Draw(const Rectangle& aViewport) = 0;
-
         virtual void Clean() = 0;
-
         std::string GetName() const { return m_Name; }
         bool IsVisible() const { return m_Visible; }
         int GetWidth() const { return m_Width; }

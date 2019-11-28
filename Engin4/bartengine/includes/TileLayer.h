@@ -23,7 +23,6 @@ namespace bart
         bool Load(XMLNode* aNode, Tileset* aTileset, int aTileWidth, int aTileHeight);
         void Draw(const Rectangle& aViewport) override;
         void Clean() override;
-
         int GetValueAt(const int aX, const int aY) const { return mLayerData[aY][aX]->Index; }
         void SetValueAt(const int aX, const int aY, const int aValue) { mLayerData[aY][aX]->Index = aValue; }
         int IsColliding(const Rectangle& aCollider, int* aX, int* aY);

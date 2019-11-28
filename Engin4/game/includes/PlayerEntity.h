@@ -6,6 +6,9 @@
 #include <Animation.h>
 #include <ObjectFactory.h>
 #include <TileLayer.h>
+#include <RigidBody.h>
+#include <Rectangle.h>
+#include <Sprite.h>
 
 class PlayerEntity final : public bart::Entity
 {
@@ -17,25 +20,25 @@ public:
     bool CanUpdate() override { return true; }
 
     void Start() override;
-    void Destroy() override;
     void Draw() override;
     void Update(float aDeltaTime) override;
-
-
-	void Gravity();
-	
-
+    void Destroy() override;
 
     void SetPosition(int aX, int aY);
-    void SetSize(int aW, int aH) const;
+
+
+	void SetTransform(float aX, float aY, float aWidth, float aHeight);
+	void SetBodyType(bart::EBodyType aType);
 
 private:
-    bart::Rectangle m_Collider;
-    bart::Transform* m_Transform{nullptr};
-    bart::Animation* m_Animation{nullptr};
 
-    bart::TileLayer* m_CollisionLayerPtr{nullptr};
-    bart::TileLayer* m_Interactable{nullptr};
+    bart::Animation* m_Animation;
+    bart::Transform* m_Transform;
+	bart::RigidBody* m_RigidBody;
+
+
+    //bart::TileLayer* m_CollisionLayerPtr{nullptr};
+    //bart::TileLayer* m_Interactable{nullptr};
 
     bool m_LeftDown{false};
     bool m_RightDown{false};

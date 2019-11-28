@@ -195,9 +195,9 @@ void bart::TileLayer::SetData(const char* aData)
             try
             {
                 tInfo->Index = std::stoul(tCurrentToken);
-                tInfo->HorizontalFlip = (tInfo->Index & FLIPPED_HORIZONTALLY_FLAG);
-                tInfo->VerticalFlip = (tInfo->Index & FLIPPED_VERTICALLY_FLAG);
-                tInfo->DiagonalFlip = (tInfo->Index & FLIPPED_DIAGONALLY_FLAG);
+                tInfo->HorizontalFlip = tInfo->Index & FLIPPED_HORIZONTALLY_FLAG;
+                tInfo->VerticalFlip = tInfo->Index & FLIPPED_VERTICALLY_FLAG;
+                tInfo->DiagonalFlip = tInfo->Index & FLIPPED_DIAGONALLY_FLAG;
                 tInfo->Index &= ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG);
             }
             catch (std::exception exp)
@@ -227,7 +227,7 @@ void bart::TileLayer::Clean()
 {
     for (TTileMap::iterator itr = mLayerData.begin(); itr != mLayerData.end(); ++itr)
     {
-        for (TileInfo* tInfo : (*itr))
+        for (TileInfo* tInfo : *itr)
         {
             delete tInfo;
         }

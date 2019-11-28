@@ -11,11 +11,7 @@ namespace bart
     {
     public:
         virtual ~BaseFactory() = default;
-
-        virtual void Create(const std::string& aName,
-                            const Rectangle& aDest,
-                            float aAngle,
-                            TiledProperties* aProps) const = 0;
+        virtual void Create(const std::string& aName, const Rectangle& aDest, float aAngle, TiledProperties* aProps) const = 0;
     };
 
     class ObjectFactory
@@ -23,14 +19,8 @@ namespace bart
     public:
         ObjectFactory() = default;
         ~ObjectFactory() = default;
-
         void Register(const std::string& aType, BaseFactory* aFactory);
-        void Create(const std::string& aType,
-                    const std::string& aName,
-                    const Rectangle& aDest,
-                    float aAngle,
-                    TiledProperties* aProps);
-
+        void Create(const std::string& aType, const std::string& aName, const Rectangle& aDest, float aAngle, TiledProperties* aProps);
         void Clear();
 
     private:

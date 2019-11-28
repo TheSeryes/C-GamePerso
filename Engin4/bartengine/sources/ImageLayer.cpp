@@ -1,6 +1,5 @@
 #include <ImageLayer.h>
 #include <tinyxml2.h>
-#include <iostream>
 
 bool bart::ImageLayer::Load(XMLNode* aNode, const std::string& aAssetPath)
 {

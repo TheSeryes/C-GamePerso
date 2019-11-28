@@ -64,7 +64,7 @@ bool bart::Tileset::Load(XMLNode* aNode, const std::string& aAssetPath)
                     for (int i = 0; i < tTileCount; i++, tTileNumber++)
                     {
                         tY = i / tColumns;
-                        tX = i - (tY * tColumns);
+                        tX = i - tY * tColumns;
 
                         m_SourceMap[tTileNumber] = new Tile();
                         m_SourceMap[tTileNumber]->Texture = tTextureId;

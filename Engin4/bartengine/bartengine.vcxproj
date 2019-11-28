@@ -23,7 +23,7 @@
     <ProjectGuid>{93C7D34B-5485-43B5-ABDA-6FAF41CF54D8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bartengine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,13 +42,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -88,7 +88,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -105,7 +105,7 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
     <Lib>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2main.lib;tinyxml2.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2main.lib;tinyxml2.lib;</AdditionalDependencies>
     </Lib>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)externals\lib\$(PlatformTarget);$(SolutionDir)externals\lib\$(PlatformTarget)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -125,7 +125,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -164,7 +164,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -204,7 +204,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -241,12 +241,61 @@
     <ClInclude Include="includes\Atlas.h" />
     <ClInclude Include="includes\Background.h" />
     <ClInclude Include="includes\BaseCollision.h" />
+    <ClInclude Include="includes\Box2dPhysicService.h" />
+    <ClInclude Include="includes\box2d\Box2D.h" />
+    <ClInclude Include="includes\box2d\Collision\b2BroadPhase.h" />
+    <ClInclude Include="includes\box2d\Collision\b2Collision.h" />
+    <ClInclude Include="includes\box2d\Collision\b2Distance.h" />
+    <ClInclude Include="includes\box2d\Collision\b2DynamicTree.h" />
+    <ClInclude Include="includes\box2d\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="includes\box2d\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="includes\box2d\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="includes\box2d\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="includes\box2d\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="includes\box2d\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="includes\box2d\Common\b2BlockAllocator.h" />
+    <ClInclude Include="includes\box2d\Common\b2Draw.h" />
+    <ClInclude Include="includes\box2d\Common\b2GrowableStack.h" />
+    <ClInclude Include="includes\box2d\Common\b2Math.h" />
+    <ClInclude Include="includes\box2d\Common\b2Settings.h" />
+    <ClInclude Include="includes\box2d\Common\b2StackAllocator.h" />
+    <ClInclude Include="includes\box2d\Common\b2Timer.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2Body.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2Fixture.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2Island.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2World.h" />
+    <ClInclude Include="includes\box2d\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="includes\box2d\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="includes\box2d\Rope\b2Rope.h" />
+    <ClInclude Include="includes\Button.h" />
     <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\Circle.h" />
     <ClInclude Include="includes\CircleCollider.h" />
     <ClInclude Include="includes\Color.h" />
     <ClInclude Include="includes\Component.h" />
     <ClInclude Include="includes\Config.h" />
+    <ClInclude Include="includes\CProperties.h" />
     <ClInclude Include="includes\EControllerButtons.h" />
     <ClInclude Include="includes\EKeys.h" />
     <ClInclude Include="includes\EMouseButton.h" />
@@ -260,9 +309,12 @@
     <ClInclude Include="includes\IGraphic.h" />
     <ClInclude Include="includes\IInput.h" />
     <ClInclude Include="includes\ILogger.h" />
+    <ClInclude Include="includes\IPhysic.h" />
     <ClInclude Include="includes\IScene.h" />
     <ClInclude Include="includes\IService.h" />
     <ClInclude Include="includes\ITimer.h" />
+    <ClInclude Include="includes\CLayer.h" />
+    <ClInclude Include="includes\CMap.h" />
     <ClInclude Include="includes\MathHelper.h" />
     <ClInclude Include="includes\Music.h" />
     <ClInclude Include="includes\NullAudio.h" />
@@ -270,13 +322,16 @@
     <ClInclude Include="includes\NullGraphic.h" />
     <ClInclude Include="includes\NullInput.h" />
     <ClInclude Include="includes\NullLogger.h" />
+    <ClInclude Include="includes\NullPhysic.h" />
     <ClInclude Include="includes\NullScene.h" />
     <ClInclude Include="includes\NullTimer.h" />
     <ClInclude Include="includes\ObjectFactory.h" />
+    <ClInclude Include="includes\PhysicMaterial.h" />
     <ClInclude Include="includes\Point.h" />
     <ClInclude Include="includes\Rectangle.h" />
     <ClInclude Include="includes\RectCollider.h" />
     <ClInclude Include="includes\Resource.h" />
+    <ClInclude Include="includes\RigidBody.h" />
     <ClInclude Include="includes\SceneManager.h" />
     <ClInclude Include="includes\SdlAudio.h" />
     <ClInclude Include="includes\SdlGraphics.h" />
@@ -294,6 +349,7 @@
     <ClInclude Include="includes\TileLayer.h" />
     <ClInclude Include="includes\TileMap.h" />
     <ClInclude Include="includes\Tileset.h" />
+    <ClInclude Include="includes\CTileset.h" />
     <ClInclude Include="includes\Transformable.h" />
     <ClInclude Include="includes\Transform.h" />
     <ClInclude Include="includes\VsLogger.h" />
@@ -304,19 +360,70 @@
     <ClCompile Include="sources\Atlas.cpp" />
     <ClCompile Include="sources\Background.cpp" />
     <ClCompile Include="sources\BaseCollision.cpp" />
+    <ClCompile Include="sources\Box2dPhysicService.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2Collision.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2Distance.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="sources\box2d\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="sources\box2d\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="sources\box2d\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="sources\box2d\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="sources\box2d\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="sources\box2d\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="sources\box2d\Common\b2Draw.cpp" />
+    <ClCompile Include="sources\box2d\Common\b2Math.cpp" />
+    <ClCompile Include="sources\box2d\Common\b2Settings.cpp" />
+    <ClCompile Include="sources\box2d\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="sources\box2d\Common\b2Timer.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\b2Body.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\b2Island.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\b2World.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="sources\box2d\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="sources\box2d\Rope\b2Rope.cpp" />
+    <ClCompile Include="sources\Button.cpp" />
     <ClCompile Include="sources\Camera.cpp" />
     <ClCompile Include="sources\Circle.cpp" />
     <ClCompile Include="sources\CircleCollider.cpp" />
     <ClCompile Include="sources\Color.cpp" />
+    <ClCompile Include="sources\CProperties.cpp" />
     <ClCompile Include="sources\Engine.cpp" />
     <ClCompile Include="sources\Entity.cpp" />
+    <ClCompile Include="sources\CLayer.cpp" />
     <ClCompile Include="sources\Layer.cpp" />
+    <ClCompile Include="sources\CMap.cpp" />
     <ClCompile Include="sources\Music.cpp" />
     <ClCompile Include="sources\NullAudio.cpp" />
     <ClCompile Include="sources\NullCollision.cpp" />
     <ClCompile Include="sources\NullGraphic.cpp" />
     <ClCompile Include="sources\NullInput.cpp" />
     <ClCompile Include="sources\NullLogger.cpp" />
+    <ClCompile Include="sources\NullPhysic.cpp" />
     <ClCompile Include="sources\NullScene.cpp" />
     <ClCompile Include="sources\NullTimer.cpp" />
     <ClCompile Include="sources\ImageLayer.cpp" />
@@ -325,12 +432,14 @@
     <ClCompile Include="sources\Point.cpp" />
     <ClCompile Include="sources\Rectangle.cpp" />
     <ClCompile Include="sources\RectCollider.cpp" />
+    <ClCompile Include="sources\RigidBody.cpp" />
     <ClCompile Include="sources\SceneManager.cpp" />
     <ClCompile Include="sources\SdlAudio.cpp" />
     <ClCompile Include="sources\SdlGraphics.cpp" />
     <ClCompile Include="sources\FileLogger.cpp" />
     <ClCompile Include="sources\SdlInput.cpp" />
     <ClCompile Include="sources\SdlTimer.cpp" />
+    <ClCompile Include="sources\SDL_FontCache.c" />
     <ClCompile Include="sources\Sound.cpp" />
     <ClCompile Include="sources\Sprite.cpp" />
     <ClCompile Include="sources\StdLogger.cpp" />
@@ -339,6 +448,7 @@
     <ClCompile Include="sources\TileMap.cpp" />
     <ClCompile Include="sources\TileProperty.cpp" />
     <ClCompile Include="sources\Tileset.cpp" />
+    <ClCompile Include="sources\CTileset.cpp" />
     <ClCompile Include="sources\Transform.cpp" />
     <ClCompile Include="sources\VsLogger.cpp" />
     <ClCompile Include="sources\World.cpp" />

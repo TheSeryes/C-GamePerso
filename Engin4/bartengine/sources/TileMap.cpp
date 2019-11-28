@@ -71,6 +71,29 @@ void bart::TileMap::LoadMap(XMLNode* aNode)
         Engine::Instance().GetGraphic().SetClearColor(137, 137, 137);
     }
 
+    const char* tAttribute = tMapElement->Attribute("orientation");
+    if (tAttribute)
+    {
+        const string tOrientation(tAttribute);
+
+        if (tOrientation == "orthogonal")
+        {
+            m_Orientation = ORTHOGONAL;
+        }
+        else if (tOrientation == "isometric")
+        {
+            m_Orientation = ISOMETRIC;
+        }
+        else if (tOrientation == "staggered")
+        {
+            m_Orientation = ISOMETRIC_STAGGERED;
+        }
+        else if (tOrientation == "hexagonal")
+        {
+            m_Orientation = HEXAGONAL_STAGGERED;
+        }
+    }
+
     XMLNode* tMapChild = aNode->FirstChild();
     while (tMapChild != nullptr)
     {

@@ -1,3 +1,30 @@
+/// -------------------------------------------------------------------------------------------------------------------
+/// BartEngine
+/// File: SdlGraphics.cpp
+///
+/// Copyright (c) 2019-2020, David St-Cyr
+/// All rights reserved.
+///
+/// This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held
+/// liable for any damages arising from the use of this software.
+///
+/// Permission is granted to anyone to use this software for any purpose, including commercial applications, and to
+/// alter it and redistribute it freely, subject to the following restrictions:
+///
+/// 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software.
+///    If you use this software in a product, an acknowledgment in the product documentation would be appreciated but
+///    is not required.
+///
+/// 2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original
+///    software.
+///
+/// 3. This notice may not be removed or altered from any source distribution.
+///
+/// Author: David St-Cyr
+/// david.stcyr@bart.ca
+///
+/// -------------------------------------------------------------------------------------------------------------------
+
 #include <SdlGraphics.h>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -5,6 +32,7 @@
 #include <Engine.h>
 #include <Camera.h>
 #include <iostream>
+#include <SDL_FontCache.h>
 
 bool bart::SdlGraphics::Initialize()
 {
@@ -28,17 +56,24 @@ bool bart::SdlGraphics::Initialize()
     }
 
     m_ClearColor.Set(0, 0, 0, 255);
-
     return true;
 }
 
 void bart::SdlGraphics::Clean()
 {
-    if (m_FontTexture != nullptr)
+    if (m_FontBuffer[0] != nullptr)
     {
-        SDL_DestroyTexture(m_FontTexture);
-        m_FontTexture = nullptr;
+        SDL_DestroyTexture(m_FontBuffer[0]);
+        m_FontBuffer[0] = nullptr;
     }
+
+    if (m_FontBuffer[1] != nullptr)
+    {
+        SDL_DestroyTexture(m_FontBuffer[1]);
+        m_FontBuffer[1] = nullptr;
+    }
+
+    m_FontBuffer.clear();
 
     SDL_DestroyRenderer(m_Renderer);
     SDL_DestroyWindow(m_Window);
@@ -52,20 +87,20 @@ void bart::SdlGraphics::Clean()
         delete it->second;
     }
 
-    for (TFontMap::iterator it = m_FntCache.begin(); it != m_FntCache.end(); ++it)
-    {
-        TTF_CloseFont(it->second->Data);
-        delete it->second;
-    }
+    //for (TFontMap::iterator it = m_FntCache.begin(); it != m_FntCache.end(); ++it)
+    //{
+    //    TTF_CloseFont(it->second->Data);
+    //    delete it->second;
+    //}
 
     m_TexCache.clear();
     m_FntCache.clear();
 
-    TTF_Quit();
+    /*TTF_Quit();*/
     SDL_Quit();
 }
 
-bool bart::SdlGraphics::InitWindow(const string& aTitle, const int aWidth, const int aHeight)
+bool bart::SdlGraphics::InitWindow(const string& aTitle, const int aWidth, const int aHeight, const EWindowState aState)
 {
     m_Window = SDL_CreateWindow(aTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, aWidth, aHeight, 0);
 
@@ -86,6 +121,16 @@ bool bart::SdlGraphics::InitWindow(const string& aTitle, const int aWidth, const
     m_ScreenWidth = aWidth;
     m_ScreenHeight = aHeight;
     SDL_SetRenderDrawBlendMode(m_Renderer, SDL_BLENDMODE_BLEND);
+
+    if (aState == BORDERLESS)
+    {
+        SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    }
+    else if (aState == FULLSCREEN)
+    {
+        SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN);
+    }
+
     return true;
 }
 
@@ -159,9 +204,12 @@ void bart::SdlGraphics::UnloadTexture(size_t aTextureId)
     }
 }
 
-size_t bart::SdlGraphics::LoadFont(const string& aFilename, int aFontSize)
+size_t bart::SdlGraphics::LoadFont(const string& aFilename, int aFontSize, const Color& aColor)
 {
-    const std::string tFontName = aFilename + "_" + std::to_string(aFontSize);
+    // https://github.com/grimfang4/SDL_FontCache
+    const std::string tFontName = aFilename + "_" + std::to_string(aFontSize) + std::to_string(aColor.R) + std::
+        to_string(aColor.G) + std::to_string(aColor.B) + std::to_string(aColor.A);
+
     const size_t tHashKey = std::hash<std::string>()(tFontName);
 
     if (m_FntCache.count(tHashKey) > 0)
@@ -170,11 +218,16 @@ size_t bart::SdlGraphics::LoadFont(const string& aFilename, int aFontSize)
         return tHashKey;
     }
 
-    TTF_Font* tFont = TTF_OpenFont(aFilename.c_str(), aFontSize * 2);
+    //TTF_Font* tFont = TTF_OpenFont(aFilename.c_str(), aFontSize * 2);
+
+    FC_Font* tFont = FC_CreateFont();
+    FC_LoadFont(
+        tFont, m_Renderer, aFilename.c_str(), aFontSize * 2, FC_MakeColor(aColor.R, aColor.G, aColor.B, aColor.A),
+        TTF_STYLE_NORMAL);
 
     if (tFont != nullptr)
     {
-        m_FntCache[tHashKey] = new Resource<TTF_Font>();
+        m_FntCache[tHashKey] = new Resource<FC_Font>();
         m_FntCache[tHashKey]->Data = tFont;
         m_FntCache[tHashKey]->Count = 1;
         return tHashKey;
@@ -190,7 +243,7 @@ void bart::SdlGraphics::UnloadFont(size_t aFontId)
         m_FntCache[aFontId]->Count--;
         if (m_FntCache[aFontId]->Count <= 0)
         {
-            TTF_CloseFont(m_FntCache[aFontId]->Data);
+            FC_FreeFont(m_FntCache[aFontId]->Data);
             delete m_FntCache[aFontId];
             m_FntCache.erase(aFontId);
         }
@@ -331,48 +384,25 @@ void bart::SdlGraphics::Draw(size_t aTexture,
 
         SDL_SetTextureBlendMode(tTex, SDL_BLENDMODE_BLEND);
         SDL_SetTextureAlphaMod(tTex, aAlpha);
+        SDL_SetTextureColorMod(tTex, 255, 255, 255);
         SDL_RenderCopyEx(m_Renderer, tTex, &tSrcRect, &tDstRect, aAngle, nullptr, tFlip);
     }
 }
 
 void bart::SdlGraphics::Draw(size_t aFont, const std::string& aText, int aX, int aY)
 {
-    if (aFont)
+    FC_Font* tFont = m_FntCache[aFont]->Data;
+
+    int tX = aX;
+    int tY = aY;
+
+    if (m_Camera != nullptr)
     {
-        SDL_Color tColor;
-        SDL_GetRenderDrawColor(m_Renderer, &tColor.r, &tColor.g, &tColor.b, &tColor.a);
-
-        TTF_Font* tFnt = m_FntCache[aFont]->Data;
-        SDL_Surface* tSurface = TTF_RenderText_Solid(tFnt, aText.c_str(), tColor);
-
-        if (tSurface != nullptr)
-        {
-            if (m_FontTexture != nullptr)
-            {
-                SDL_DestroyTexture(m_FontTexture);
-                m_FontTexture = nullptr;
-            }
-
-            m_FontTexture = SDL_CreateTextureFromSurface(m_Renderer, tSurface);
-            SDL_FreeSurface(tSurface);
-
-            if (m_FontTexture != nullptr)
-            {
-                int w = 0;
-                int h = 0;
-                SDL_QueryTexture(m_FontTexture, nullptr, nullptr, &w, &h);
-                SDL_Rect tDestination = {aX, aY, w, h};
-
-                if (m_Camera != nullptr)
-                {
-                    tDestination.x -= m_Camera->GetX();
-                    tDestination.y -= m_Camera->GetY();
-                }
-
-                SDL_RenderCopy(m_Renderer, m_FontTexture, nullptr, &tDestination);
-            }
-        }
+        tX -= m_Camera->GetX();
+        tY -= m_Camera->GetY();
     }
+
+    FC_Draw(tFont, m_Renderer, static_cast<float>(tX), static_cast<float>(tY), aText.c_str());
 }
 
 void bart::SdlGraphics::GetTextureSize(size_t aTextureId, int* aWidth, int* aHeight)
@@ -393,8 +423,10 @@ void bart::SdlGraphics::GetFontSize(size_t aFontId, const string& aText, int* aW
 {
     if (m_FntCache.count(aFontId) > 0)
     {
-        TTF_Font* tFont = m_FntCache[aFontId]->Data;
-        TTF_SizeText(tFont, aText.c_str(), aWidth, aHeight);
+        const FC_Scale tScale = {1.0f, 1.0f};
+        const SDL_Rect tBounds = FC_GetBounds(m_FntCache[aFontId]->Data, 0, 0, FC_ALIGN_LEFT, tScale, aText.c_str());
+        *aWidth = tBounds.w;
+        *aHeight = tBounds.h;
     }
     else
     {
@@ -403,14 +435,17 @@ void bart::SdlGraphics::GetFontSize(size_t aFontId, const string& aText, int* aW
     }
 }
 
-int bart::SdlGraphics::GetScreenWidth() const
+void bart::SdlGraphics::GetScreenSize(int* aWidth, int* aHeight)
 {
-    return m_ScreenWidth;
+    SDL_DisplayMode tDisplayMode;
+    SDL_GetCurrentDisplayMode(0, &tDisplayMode);
+    *aWidth = tDisplayMode.w;
+    *aHeight = tDisplayMode.h;
 }
 
-int bart::SdlGraphics::GetScreenHeight() const
+void bart::SdlGraphics::GetWindowSize(int* aWidth, int* aHeight)
 {
-    return m_ScreenHeight;
+    SDL_GetWindowSize(m_Window, aWidth, aHeight);
 }
 
 int bart::SdlGraphics::GetTextureInCache() const
@@ -446,4 +481,44 @@ void bart::SdlGraphics::Fill(int aX, int aY, int aWidth, int aHeight)
     }
 
     SDL_RenderFillRect(m_Renderer, &tRect);
+}
+
+void bart::SdlGraphics::SetViewport(const int aX, const int aY, const int aWidth, const int aHeight)
+{
+    SDL_Rect tViewPortRect = {aX, aY, aWidth, aHeight};
+    SDL_RenderSetViewport(m_Renderer, &tViewPortRect);
+}
+
+void bart::SdlGraphics::ScaleViewport(const float aX, const float aY)
+{
+    SDL_RenderSetScale(m_Renderer, aX, aY);
+}
+
+void bart::SdlGraphics::SetWindowState(const EWindowState aState)
+{
+    switch (aState)
+    {
+    case BORDERLESS:
+        SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        break;
+    case FULLSCREEN:
+        SDL_SetWindowFullscreen(m_Window, SDL_WINDOW_FULLSCREEN);
+        break;
+
+    default:
+        SDL_SetWindowFullscreen(m_Window, 0);
+    }
+}
+
+void bart::SdlGraphics::Draw(Transform* transform)
+{
+    SDL_FRect tRect = {transform->X, transform->Y, transform->Width, transform->Height};
+
+    if (m_Camera != nullptr)
+    {
+        tRect.x -= static_cast<float>(m_Camera->GetX());
+        tRect.y -= static_cast<float>(m_Camera->GetY());
+    }
+
+    SDL_RenderDrawRectF(m_Renderer, &tRect);
 }

@@ -5,6 +5,9 @@
 #include <RectEntity.h>
 #include <Assets.h>
 #include <PlayerEntity.h>
+#include <GroundEntities.h>
+#include <PushObjects.h>
+#include <Config.h>
 
 
 MapEntity::MapEntity()
@@ -19,6 +22,10 @@ void MapEntity::Draw()
 
 void MapEntity::Start()
 {	
+	bart::IGraphic& tGraphic = bart::Engine::Instance().GetGraphic();
+
+	m_Map.Register("PlateForm", new GroundFactory());
+	m_Map.Register("Push", new PushFactory());
     m_Map.Register("Player", new PlayerFactory());
 
     if(!m_Map.Load("Assets/Demo/GameMap.tmx"))
@@ -26,8 +33,8 @@ void MapEntity::Start()
         bart::Engine::Instance().GetLogger().Log("Error loading map");
     }
 
-	m_Camera.SetPosition(0, 0);
-    m_Camera.SetViewport(0, 0, 800, 800);
+    m_Camera.SetViewport(0, 800, 800, 1080);
+
     Engine::Instance().GetGraphic().SetCamera(&m_Camera);
 }
 
@@ -51,4 +58,14 @@ void MapEntity::Destroy()
 {
     m_Map.Clean();
 	SAFE_DELETE(m_Transform);
+}
+
+void MapEntity::ScroolUp()
+{
+
+	
+}
+
+void MapEntity::ScroolDown()
+{
 }
