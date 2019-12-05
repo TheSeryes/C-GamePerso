@@ -15,7 +15,7 @@ void RegisterGameStates()
 
 int main()
 {
-    if (Engine::Instance().Initialize("Climber Puzzle", 800, 800))
+    if (Engine::Instance().Initialize("Climber Puzzle", 1600, 800))
     {
         RegisterGameStates();
 

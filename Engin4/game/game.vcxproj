@@ -27,6 +27,7 @@
     <ClCompile Include="sources\PlayerEntity.cpp" />
     <ClCompile Include="sources\GroundEntities.cpp" />
     <ClCompile Include="sources\PushObjects.cpp" />
+    <ClCompile Include="sources\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\Assets.h" />
@@ -36,6 +37,7 @@
     <ClInclude Include="includes\SceneGame.h" />
     <ClInclude Include="includes\MapEntity.h" />
     <ClInclude Include="includes\PlayerEntity.h" />
+    <ClInclude Include="includes\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bartengine\bartengine.vcxproj">

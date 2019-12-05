@@ -3,14 +3,29 @@
 
 #include <PlayerEntity.h>
 #include <vector>
+#include <Entity.h>
+#include <UI.h>
 
 
-class GameManager
+
+
+class GameManager final : public bart::Entity
 {
-public:
-	
+public:	
+	GameManager();
+	virtual ~GameManager() = default;
 
-private:
+	bool CanDraw() override { return true; }
+	bool CanUpdate() override { return true; }
+
+	void Start() override;
+	void Update(float aDeltatime) override;
+	void Destroy() override;
 	
+private:
+	UI* m_UITimer{ nullptr };
+	float m_TimeGame;
+
+	float m_GameOver{ 0.0f };	
 };
 #endif

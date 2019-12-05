@@ -28,12 +28,12 @@ void MapEntity::Start()
 	m_Map.Register("Push", new PushFactory());
     m_Map.Register("Player", new PlayerFactory());
 
-    if(!m_Map.Load("Assets/Demo/GameMap.tmx"))
+    if(!m_Map.Load("Assets/Demo/NewMap.tmx"))
     {
         bart::Engine::Instance().GetLogger().Log("Error loading map");
     }
 
-    m_Camera.SetViewport(0, 800, 800, 1080);
+    m_Camera.SetViewport(0, 0, 1600, 800);
 
     Engine::Instance().GetGraphic().SetCamera(&m_Camera);
 }

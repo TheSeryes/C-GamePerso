@@ -10,6 +10,7 @@
 #include <Rectangle.h>
 #include <Sprite.h>
 
+
 class PlayerEntity final : public bart::Entity
 {
 public:
@@ -35,10 +36,11 @@ private:
     bart::Animation* m_Animation;
     bart::Transform* m_Transform;
 	bart::RigidBody* m_RigidBody;
+	
 
 
-    //bart::TileLayer* m_CollisionLayerPtr{nullptr};
-    //bart::TileLayer* m_Interactable{nullptr};
+ /*   bart::TileLayer* m_CollisionLayerPtr{nullptr};
+    bart::TileLayer* m_Interactable{nullptr};*/
 
     bool m_LeftDown{false};
     bool m_RightDown{false};

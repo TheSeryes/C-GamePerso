@@ -18,12 +18,12 @@ void PlayerEntity::Start()
 	m_Animation->InitAnimation(3, 32, 64);
 	m_Animation->Play(0, 3, 0.5f, true); // Idle frame
 	
- //   bart::IScene& tScene = bart::Engine::Instance().GetScene();
- //   MapEntity* tMapEntityPtr = static_cast<MapEntity*>(tScene.FindEntity("GameMap"));
- //   bart::TileMap* tMap = tMapEntityPtr->GetMapPtr();
- //   m_CollisionLayerPtr = tMap->GetLayer<bart::TileLayer>("Collision");
+    /*bart::IScene& tScene = bart::Engine::Instance().GetScene();
+    MapEntity* tMapEntityPtr = static_cast<MapEntity*>(tScene.FindEntity("GameMap"));
+    bart::TileMap* tMap = tMapEntityPtr->GetMapPtr();
+	m_CollisionLayerPtr = tMap->GetLayer<bart::TileLayer>("Collision");
 
-//	  m_Interactable = tMap->GetLayer<bart::TileLayer>("Lianne");
+	m_Interactable = tMap->GetLayer<bart::TileLayer>("Lianne");*/
 }
 
 void PlayerEntity::Destroy()
@@ -41,23 +41,27 @@ void PlayerEntity::Draw()
 
 void PlayerEntity::Update(float aDeltaTime)
 {
-    m_Animation->Update(m_Transform, aDeltaTime);
 
 	IInput& tInput = Engine::Instance().GetInput();
 	m_RigidBody->Update(m_Transform, aDeltaTime);
+	
+
 
 	if (tInput.IsKeyDown(KEY_LEFT))
 	{
 		m_Transform->Translate(-1.0f, 0.0f);
+		m_Transform->SetFlip(true, false);
+		m_Animation->Update(m_Transform, aDeltaTime);
 
 	}
 	else if (tInput.IsKeyDown(KEY_RIGHT))
 	{
 		m_Transform->Translate(1.0f, 0.0f);
+		m_Transform->SetFlip(false, false);
+		m_Animation->Update(m_Transform, aDeltaTime);
 	}
 
 	m_RigidBody->SetTransform(m_Transform);
-
 }
 
 
